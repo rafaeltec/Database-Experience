@@ -1,1 +1,199 @@
+-- Descrição do Desafio
+-- Para este cenário você irá utilizar seu esquema conceitual,
+-- criado no desafio do módulo de modelagem de BD com modelo ER, para criar o esquema lógico para o contexto de uma oficina. 
+-- Neste desafio, você definirá todas as etapas.
+-- Desde o esquema até a implementação do banco de dados. Sendo assim, neste projeto você será o protagonista. Tenha os mesmos cuidados, apontados no desafio anterior, ao modelar o esquema utilizando o modelo relacional.
+
+
+-- Criação do banco de dados
+CREATE DATABASE OficinaMecanica;
+USE OficinaMecanica;
+
+-- Tabela de Clientes
+CREATE TABLE Clientes (
+    ClienteID INT PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(50),
+    Telefone VARCHAR(15),
+    Email VARCHAR(50)
+);
+desc Clientes;
+select * from Clientes;
+
+-- Tabela de Veículos
+CREATE TABLE Veiculos (
+    VeiculoID INT PRIMARY KEY AUTO_INCREMENT,
+    Modelo VARCHAR(50),
+    Placa VARCHAR(10),
+    Ano INT,
+    ClienteID INT,
+    FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)
+);
+desc Veiculos;
+select * from Veiculos;
+
+-- Tabela de Serviços
+CREATE TABLE Servicos (
+    ServicoID INT PRIMARY KEY AUTO_INCREMENT,
+    Descricao TEXT,
+    Preco DECIMAL(10, 2),
+    DataServico DATE,
+    VeiculoID INT,
+    FOREIGN KEY (VeiculoID) REFERENCES Veiculos(VeiculoID)
+);
+desc Servicos;
+select * from Servicos;
+
+-- Inserindo alguns dados , populando as tabelas
+					-- CLIENTES
+					INSERT INTO Clientes (Nome, Telefone, Email) VALUES ('João', '11987654321', 'joao@email.com');
+					INSERT INTO Clientes (Nome, Telefone, Email) VALUES ('Maria', '11987654322', 'maria@email.com');
+					INSERT INTO Clientes (Nome, Telefone, Email) VALUES ('Pedro', '11987654323', 'pedro@email.com');
+					INSERT INTO Clientes (Nome, Telefone, Email) VALUES ('Ana', '11987654324', 'ana@email.com');
+
+
+					-- VEICULOS 
+					INSERT INTO Veiculos (Modelo, Placa, Ano, ClienteID) VALUES ('Fusca', 'XYZ-1234', 1970, 1);
+					INSERT INTO Veiculos (Modelo, Placa, Ano, ClienteID) VALUES ('Gol', 'ABC-5678', 2010, 2);
+					INSERT INTO Veiculos (Modelo, Placa, Ano, ClienteID) VALUES ('Civic', 'DEF-9101', 2015, 3);
+					INSERT INTO Veiculos (Modelo, Placa, Ano, ClienteID) VALUES ('Corolla', 'GHI-1121', 2018, 4);
+                    INSERT INTO Veiculos (Modelo, Placa, Ano, ClienteID) VALUES ('NIVUS', '2ASD-0124', 2023,1);
+
+
+					-- Serviços
+					INSERT INTO Servicos (Descricao, Preco, DataServico, VeiculoID) VALUES ('Troca de óleo', 100.00, '2023-09-24', 1);
+					INSERT INTO Servicos (Descricao, Preco, DataServico, VeiculoID) VALUES ('Alinhamento', 150.00, '2023-09-25', 2);
+					INSERT INTO Servicos (Descricao, Preco, DataServico, VeiculoID) VALUES ('Revisão completa', 300.00, '2023-09-26', 3);
+					INSERT INTO Servicos (Descricao, Preco, DataServico, VeiculoID) VALUES ('Troca de pneus', 400.00, '2023-09-27', 4);
+
+
+
+
+   -- Recuperações simples com SELECT Statement;
+   
+   select * from Clientes;
+   select * from Veiculos;
+   select * from Servicos;
+   
+   
+-- Filtros com WHERE Statement;
+   -- 1. Encontrar todos os clientes com um nome específico :
+   SELECT * FROM Clientes WHERE Nome = 'João';
+   -- 2. Encontrar todos os veículos de um determinado ano:
+   SELECT * FROM Veiculos WHERE Ano = 1970;
+   -- 3. Encontrar todos os serviços realizados em uma data específica:
+   SELECT * FROM Servicos WHERE DataServico = '2023-09-24';
+   -- 4. Encontrar todos os serviços que custam mais de R$50:
+   SELECT * FROM Servicos WHERE Preco > 50.00;
+   -- 5. Encontrar todos os veículos pertencentes a um cliente específico (usando ID do cliente):
+   SELECT * FROM Veiculos WHERE ClienteID = 1;
+   -- 6. Encontrar todos os serviços realizados em veículos de um cliente específico:
+	   SELECT Servicos.* 
+	FROM Servicos 
+	JOIN Veiculos ON Servicos.VeiculoID = Veiculos.VeiculoID 
+	WHERE Veiculos.ClienteID = 1;
+    
+-- Crie expressões para gerar atributos derivados
+   -- 1. Calcular o total de gastos de cada cliente em serviços:
+		SELECT ClienteID, SUM(Preco) AS TotalGasto
+		FROM Servicos
+		JOIN Veiculos ON Servicos.VeiculoID = Veiculos.VeiculoID
+		GROUP BY ClienteID;
+	-- 2. Calcular a idade do veículo:		
+	   SELECT Modelo, 2023 - Ano AS IdadeDoVeiculo
+	   FROM Veiculos;       
+	-- 3. Calcular o preço com desconto para serviços:
+		SELECT ServicoID, Descricao, Preco, Preco * 0.9 AS PrecoComDesconto -- 10% DE DESCONTO ! 
+		FROM Servicos;
+	-- 4. Concatenar o nome do cliente e o modelo do veículo:
+		SELECT CONCAT(Clientes.Nome, ' - ', Veiculos.Modelo) AS ClienteVeiculo
+		FROM Veiculos
+		JOIN Clientes ON Veiculos.ClienteID = Clientes.ClienteID;
+    -- 5. Calcular o número de dias desde a data do serviço até hoje:
+		SELECT ServicoID, DATEDIFF('2023-09-24', DataServico) AS DiasDesdeServico
+		FROM Servicos;
+     -- 6. Calcular o preço com imposto   
+		SELECT ServicoID, Preco, Preco * 1.05 AS PrecoComImposto -- PREÇO DO IMPOSTO 5%
+		FROM Servicos;
+
+   
+-- Defina ordenações dos dados com ORDER BY:
+	-- 1. Ordenar clientes por nome em ordem alfabética:
+		SELECT * FROM Clientes ORDER BY Nome ASC;
+	-- 2. Ordenar veículos por ano em ordem descendente
+		SELECT * FROM Veiculos ORDER BY Ano DESC;
+	-- 3. Ordenar serviços por preço em ordem ascendente
+		SELECT * FROM Servicos ORDER BY Preco ASC;
+	-- 4. Ordenar serviços por data em ordem descendente
+		SELECT * FROM Servicos ORDER BY DataServico DESC;
+	-- 5. Ordenar veículos por ClienteID e depois por Modelo
+		SELECT * FROM Veiculos ORDER BY ClienteID ASC, Modelo ASC;
+	-- 6. Ordenar serviços por ClienteID e Preço em ordem descendente
+		SELECT Servicos.*, Veiculos.ClienteID 
+		FROM Servicos 
+		JOIN Veiculos ON Servicos.VeiculoID = Veiculos.VeiculoID 
+		ORDER BY Veiculos.ClienteID ASC, Servicos.Preco DESC;
+	-- 7. Ordenar clientes por e-mail em ordem alfabética
+		SELECT * FROM Clientes ORDER BY Email ASC;
+      
+-- Condições de filtros aos grupos – HAVING Statement:
+
+	-- 1. Encontrar o total de gastos de cada cliente em serviços, apenas para clientes que gastaram mais de R$100:
+		SELECT ClienteID, SUM(Preco) AS TotalGasto
+		FROM Servicos
+		JOIN Veiculos ON Servicos.VeiculoID = Veiculos.VeiculoID
+		GROUP BY ClienteID
+		HAVING TotalGasto > 100;
+	-- 2. Contar o número de veículos para cada cliente, apenas para clientes que têm mais de um veículo:
+		SELECT ClienteID, COUNT(VeiculoID) AS NumeroDeVeiculos
+		FROM Veiculos
+		GROUP BY ClienteID
+		HAVING NumeroDeVeiculos > 1;
+	-- 3. Encontrar a média de preço dos serviços realizados em cada data, apenas para datas com média de preço maior que R$50:
+		SELECT DataServico, AVG(Preco) AS MediaPreco
+		FROM Servicos
+		GROUP BY DataServico
+		HAVING MediaPreco > 50;
+	-- 4. Encontrar o preço mínimo e máximo para cada tipo de serviço, apenas para serviços que têm um preço mínimo abaixo de R$1000:
+		SELECT Descricao, MIN(Preco) AS PrecoMinimo, MAX(Preco) AS PrecoMaximo
+		FROM Servicos
+		GROUP BY Descricao
+		HAVING PrecoMinimo < 1000;
+
+   
+-- Crie junções entre tabelas para fornecer uma perspectiva mais complexa dos dados:
+
+	-- 1. INNER JOIN
+		SELECT Clientes.Nome, Veiculos.Modelo
+		FROM Clientes
+		INNER JOIN Veiculos ON Clientes.ClienteID = Veiculos.ClienteID;
+	
+	-- 2. LEFT JOIN (ou LEFT OUTER JOIN)
+		SELECT Clientes.Nome, Servicos.Descricao
+		FROM Clientes
+		LEFT JOIN Servicos ON Clientes.ClienteID = Servicos.ClienteID;
+	
+	
+	-- 3. RIGHT JOIN (ou RIGHT OUTER JOIN)
+		SELECT Veiculos.Modelo, Servicos.Descricao
+		FROM Veiculos
+		RIGHT JOIN Servicos ON Veiculos.VeiculoID = Servicos.VeiculoID;
+	
+	
+	-- 4. FULL JOIN (ou FULL OUTER JOIN)
+		SELECT Clientes.Nome, Veiculos.Modelo
+		FROM Clientes
+		FULL JOIN Veiculos ON Clientes.ClienteID = Veiculos.ClienteID;
+	
+	-- 5. Junção com mais de duas tabelas
+		SELECT Clientes.Nome, Veiculos.Modelo, Servicos.Descricao
+		FROM ((Clientes
+		INNER JOIN Veiculos ON Clientes.ClienteID = Veiculos.ClienteID)
+		INNER JOIN Servicos ON Veiculos.VeiculoID = Servicos.VeiculoID);
+
+
+
+
+
+
+
 
