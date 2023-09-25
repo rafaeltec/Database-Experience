@@ -1,0 +1,61 @@
+Bancos de Dados Relacionais (SQL)
+
+  SQL (Structured Query Language): Linguagem de programação usada para gerenciar e manipular bancos de dados relacionais.
+  Tabelas: Os dados são armazenados em tabelas que são interconectadas através de chaves.
+  ACID (Atomicidade, Consistência, Isolamento, Durabilidade): Propriedades que garantem transações confiáveis.
+  Normalização: Processo de organização de dados para reduzir a redundância e melhorar a integridade dos dados.
+
+
+Insights
+
+  Escalabilidade Vertical: Os bancos de dados SQL são geralmente escalados verticalmente, o que pode ser um desafio em termos de custo e desempenho.
+  Integridade dos Dados: Excelente para sistemas que requerem alta integridade dos dados, como sistemas financeiros.
+  Complexidade de Junção: As operações de junção podem ser complexas e consumir muitos recursos.
+
+
+Bancos de Dados Não Relacionais (NoSQL)
+
+  NoSQL (Not Only SQL): Tipo de banco de dados que permite o armazenamento de dados não estruturados.
+  Tipos: Documento, chave-valor, coluna larga e grafos são alguns dos tipos de bancos de dados NoSQL.
+  CAP (Consistência, Disponibilidade, Tolerância a Partição): Teorema que descreve as propriedades dos sistemas de banco de dados distribuídos.
+
+Insights
+
+  Escalabilidade Horizontal: Os bancos de dados NoSQL são projetados para serem escalados horizontalmente, o que é mais eficaz em termos de custo.
+  Flexibilidade de Esquema: Ideal para dados não estruturados ou semiestruturados.
+  Desempenho: Geralmente mais rápidos para consultas que não exigem junções complexas.
+
+
+Data Lake
+
+  Um Data Lake é um repositório centralizado que permite armazenar todos os seus dados, estruturados ou não, em uma escala massiva.
+  Ao contrário dos bancos tradicionais, os dados são armazenados em seu formato bruto.
+  Schema-on-Read: O esquema é aplicado apenas quando os dados são lidos, oferecendo maior flexibilidade.
+
+Insights
+  Escalabilidade: Data Lakes são altamente escaláveis, permitindo o armazenamento de petabytes de dados.
+  Flexibilidade: Ideal para cenários onde os dados são muito variados ou onde os requisitos estão em constante evolução.
+  Governança de Dados: Um desafio comum é garantir a qualidade e a segurança dos dados armazenados.
+
+Databricks
+
+  Databricks é uma plataforma baseada em Apache Spark, o mecanismo de análise de dados em cluster de código aberto.
+  Oferece um ambiente colaborativo com notebooks para desenvolvimento de código.
+  MLflow: Uma plataforma para o ciclo de vida completo da aprendizagem de máquina.
+
+Insights
+
+  Integração: Facilita a integração com várias fontes de dados, incluindo Data Lakes.
+  Colaboração: Permite que cientistas de dados, engenheiros de dados e analistas de negócios trabalhem juntos de forma eficaz.
+  Desempenho: Otimizado para alta performance, tornando-o adequado para operações de dados em grande escala.
+
+Papel do Engenheiro de Dados
+
+Insights
+
+  Escolher o tipo de banco de dados mais adequado para o projeto.
+  Cuidado para não virar um pantano de dados pois sem organização é difícil manter.
+  Sempre melhorar o desempenho das consultas e garantir a integridade dos dados.
+  Trabalhar com outros profissionais, como cientistas de dados e desenvolvedores, para integrar o banco de dados em sistemas mais amplos.
+
+
