@@ -54,6 +54,8 @@ drop table pedidos;
 
 
 
+
+
 -- Criação da tabela ItensPedido
 CREATE TABLE ItensPedido (
     item_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -65,6 +67,7 @@ CREATE TABLE ItensPedido (
     FOREIGN KEY (produto_id) REFERENCES Produtos(produto_id)
 );
 select * from itenspedido;
+
 drop table ItensPedido;
 
 
@@ -77,6 +80,8 @@ CREATE TABLE Pagamento (
     status ENUM('Pendente', 'Concluído', 'Cancelado') DEFAULT 'Pendente',
     FOREIGN KEY (pedido_id) REFERENCES Pedidos(pedido_id)
 );
+
+
 select * from Pagamento;
 drop table Pagamento;
 
@@ -125,10 +130,33 @@ select * from FormasPagamento;
 CREATE TABLE Entrega (
     entrega_id INT PRIMARY KEY AUTO_INCREMENT,
     pedido_id INT UNIQUE NOT NULL,
-    status ENUM('Pendente', 'Em Trânsito', 'Entregue') DEFAULT 'Pendente',
+    estatus ENUM('Pendente', 'Em Trânsito', 'Entregue') DEFAULT 'Pendente',
     codigo_rastreio VARCHAR(50),
     FOREIGN KEY (pedido_id) REFERENCES Pedidos(pedido_id)
 );
+select * from entrega;
+drop table Entrega;
+
+-- Populando a tabela Entrega  ATENÇÂO Só podemos inserir onde pedido_id tenha algum valor numerico ! por isso consultei para verificar se tinha pedidos e retornou 5 / 6 /7
+INSERT INTO Entrega (pedido_id, estatus, codigo_rastreio)
+VALUES (5, 'Pendente', 'ABC123'),
+       (6, 'Em Trânsito', 'DEF456'),
+       (7, 'Entregue', 'GHI789');
+
+INSERT INTO Entrega (pedido_id, estatus, codigo_rastreio) VALUES
+(1, 'Pendente', 'RA123456789BR'),
+(2, 'Em Trânsito', 'RB123456789BR'),
+(3, 'Entregue', 'RC123456789BR'),
+(4, 'Pendente', 'RD123456789BR'),
+(5, 'Em Trânsito', 'RE123456789BR'),
+(6, 'Entregue', 'RF123456789BR'),
+(7, 'Pendente', 'RG123456789BR'),
+(8, 'Em Trânsito', 'RH123456789BR'),
+(9, 'Entregue', 'RI123456789BR'),
+(10, 'Pendente', 'RJ123456789BR');
+
+
+
 
 -- TODAS TABELAS CRIADAS E REFINADAS !
 -- Queries para Popular as Novas Tabelas
@@ -153,9 +181,8 @@ INSERT INTO FormasPagamento (tipo, cliente_id) VALUES
 ('Cartão de Crédito', 1),
 ('Boleto', 1);
 
--- Populando a tabela Entrega
-INSERT INTO Entrega (pedido_id, status, codigo_rastreio) VALUES
-(1, 'Pendente', 'ABCD1234');
+
+
 SELECT * FROM Entrega WHERE status = 'Pendente';
 
 -- Populando a tabela Categorias
@@ -174,8 +201,12 @@ SELECT * FROM Categorias;
 
 -- Populando a tabela Pedidos PENDENTE_____________________________________________________________
 INSERT INTO Pedidos (cliente_id, status) VALUES
-(1, 'Pendente'),
-(2, 'Concluído');
+(1, 'Pendente');
+INSERT INTO Pedidos (cliente_id, status) VALUES
+(4, 'Concluído');
+INSERT INTO Pedidos (cliente_id, status) VALUES
+(65, 'Concluído');
+
 select * from pedidos;
 SELECT * FROM Pedidos WHERE cliente_id = 1;
 SELECT * FROM Pedidos WHERE status = 'Concluído';
@@ -281,7 +312,6 @@ SELECT F.nome AS Fornecedor, P.nome AS Produto
 FROM Fornecedores F
 INNER JOIN ProdutoFornecedor PF ON F.fornecedor_id = PF.fornecedor_id
 INNER JOIN Produtos P ON PF.produto_id = P.produto_id;
-
 
 
 
