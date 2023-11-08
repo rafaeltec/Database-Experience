@@ -296,6 +296,13 @@ select * from ProdutoFornecedor;
 
 -- Populando a tabela ProdutoFornecedor
 
+-- Inserir dados na tabela ProdutoFornecedor
+INSERT INTO ProdutoFornecedor (produto_id, fornecedor_id)
+VALUES (1, 1), -- Associa o produto com ID 1 ao fornecedor com ID 101
+       (2, 2); -- Associa o produto com ID 2 ao fornecedor com ID 102
+      
+
+
 
 SELECT P.nome AS Produto, F.nome AS Fornecedor, P.estoque AS Estoque
 FROM Produtos P
